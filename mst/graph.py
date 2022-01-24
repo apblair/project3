@@ -83,5 +83,3 @@ class Graph:
                 # x+=1
                 # print('\n')
         # print(self.mst)
-
-Graph('./data/small.csv').construct_mst()

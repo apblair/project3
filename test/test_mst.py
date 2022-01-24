@@ -60,3 +60,6 @@ def test_mst_single_cell_data():
 def test_mst_student():
     """ TODO: Write at least one unit test for MST construction """
     pass
+
+# test_mst_small()
+# test_mst_single_cell_data()
