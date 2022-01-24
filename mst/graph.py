@@ -44,19 +44,25 @@ class Graph:
         connected_vertices = self._create_vertex_list(i,j)
         weight_by_vertex_list = list(zip([self.adj_mat[x] for x in connected_vertices],connected_vertices))
         heapq.heapify(weight_by_vertex_list)
+        print('weight by vertex list', weight_by_vertex_list)
         queue = []
         heapq.heappush(queue,weight_by_vertex_list[0])
         visited = [weight_by_vertex_list[0][1][0]]
+        x =0
         while queue:
+            print('MST iteration: ', x)
+            print('queue:',queue)
             weight, vertices_tuple = heapq.heappop(queue)
-            print(vertices_tuple)
-            print(visited)
+            print('edge weight and vertices:', weight, vertices_tuple)
+            print('visited:', visited)
             if vertices_tuple[1] not in visited:
                 self.mst[vertices_tuple] = weight
+                self.mst[vertices_tuple[::-1]] = weight
                 visited.append(vertices_tuple[1])
-                print(self.mst)
-                break   
-        # min_i, min_j  = np.where(self.adj_mat==np.min(self.adj_mat[np.nonzero(self.adj_mat)]))
-        # min_vertices = self._create_vertex_list(min_i, min_j)
+                neighbors_list = [x for x in weight_by_vertex_list if x[1][0] == vertices_tuple[1]] # and x[1][1] not in visited
+                heapq.heapify(neighbors_list)
+                print('neighbors: ', neighbors_list)
+                heapq.heappush(queue, neighbors_list)
+                x+=1
 
 mst_graph = Graph('./data/small.csv').construct_mst()
