@@ -49,8 +49,10 @@ class Graph:
         
         weight_by_vertex_list = list(zip([self.adj_mat[x] for x in connected_vertices],connected_vertices))
         print('weight by vertex list:', weight_by_vertex_list)
-        heapq.heapify(weight_by_vertex_list) # not necessary
-        print('heapify weight by vertex list:', weight_by_vertex_list)
+        
+        # not necessary
+        # heapq.heapify(weight_by_vertex_list) 
+        # print('heapify weight by vertex list:', weight_by_vertex_list)
         
         queue = []
         starting_vertex_list = list(filter(lambda x: x[1][0] == 0, weight_by_vertex_list)) # filter to vertex 0
@@ -67,7 +69,7 @@ class Graph:
             weight, vertices_tuple = heapq.heappop(queue)
             print('edge weight and vertices:', weight, vertices_tuple)
             print('visited:', visited)
-            
+            print('current',vertices_tuple[1])
             if vertices_tuple[1] not in visited:
                 
                 self.mst[vertices_tuple] = weight
@@ -80,7 +82,7 @@ class Graph:
                 print('neighbors: ', neighbors_list)
                 print('MST:', '\n', self.mst)
                 
-                heapq.heappush(queue, neighbors_list[0])
+                heapq.heappush(queue, neighbors_list)
                 x+=1
                 print('\n')
 
