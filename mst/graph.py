@@ -40,12 +40,16 @@ class Graph:
         module, particularly the `heapify`, `heappop`, and `heappush` functions.
         """
         self.mst = np.zeros(shape=(self.adj_mat.shape[0],self.adj_mat.shape[1]))
-
         i,j= np.where(self.adj_mat > 0)
         connected_vertices = self._create_vertex_list(i,j)
+        weight_by_vertex_list = list(zip([self.adj_mat[x] for x in connected_vertices],connected_vertices))
+        heapq.heapify(weight_by_vertex_list)
 
-        min_i, min_j  = np.where(self.adj_mat==np.min(self.adj_mat[np.nonzero(self.adj_mat)]))
-        min_vertices = self._create_vertex_list(min_i, min_j)
+        # min_i, min_j  = np.where(self.adj_mat==np.min(self.adj_mat[np.nonzero(self.adj_mat)]))
+        # min_vertices = self._create_vertex_list(min_i, min_j)
+
+
+
 
 
 mst_graph = Graph('./data/small.csv').construct_mst()
