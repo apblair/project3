@@ -1,4 +1,4 @@
-![BuildStatus](https://github.com/apblair/project3/actions/workflows/test.yml/badge.svg?event=push)
+![BuildStatus](https://github.com/apblair/project3/actions/workflows/main.yml/badge.svg?event=push)
 # Project 3
 Minimum Spanning Trees
 
