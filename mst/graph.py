@@ -1,3 +1,4 @@
+from tracemalloc import start
 import numpy as np
 import heapq
 import itertools
@@ -39,30 +40,48 @@ class Graph:
         We highly encourage the use of priority queues in your implementation. See the heapq
         module, particularly the `heapify`, `heappop`, and `heappush` functions.
         """
+        print('Starting MST','\n')
         self.mst = np.zeros(shape=(self.adj_mat.shape[0],self.adj_mat.shape[1]))
+        
         i,j= np.where(self.adj_mat > 0)
         connected_vertices = self._create_vertex_list(i,j)
+        print('connected vertices:', connected_vertices)
+        
         weight_by_vertex_list = list(zip([self.adj_mat[x] for x in connected_vertices],connected_vertices))
+        print('weight by vertex list:', weight_by_vertex_list)
         heapq.heapify(weight_by_vertex_list)
-        print('weight by vertex list', weight_by_vertex_list)
+        print('heapify weight by vertex list:', weight_by_vertex_list)
+        
         queue = []
-        heapq.heappush(queue,weight_by_vertex_list[0])
+        starting_vertex_list = list(filter(lambda x: x[1][0] == 0, weight_by_vertex_list)) # filter to vertex 0
+        heapq.heapify(starting_vertex_list)
+        heapq.heappush(queue,starting_vertex_list[0])
+        
         visited = [weight_by_vertex_list[0][1][0]]
+        
         x =0
+        print('\n')
         while queue:
-            print('MST iteration: ', x)
+            print('MST iteration:', x)
             print('queue:',queue)
+            
             weight, vertices_tuple = heapq.heappop(queue)
             print('edge weight and vertices:', weight, vertices_tuple)
             print('visited:', visited)
+            
             if vertices_tuple[1] not in visited:
+                
                 self.mst[vertices_tuple] = weight
                 self.mst[vertices_tuple[::-1]] = weight
+                
                 visited.append(vertices_tuple[1])
-                neighbors_list = [x for x in weight_by_vertex_list if x[1][0] == vertices_tuple[1]] # and x[1][1] not in visited
+                
+                neighbors_list = [x for x in weight_by_vertex_list if x[1][0] == vertices_tuple[1]] # and x[1][1] not in visited 
                 heapq.heapify(neighbors_list)
                 print('neighbors: ', neighbors_list)
+                
                 heapq.heappush(queue, neighbors_list)
                 x+=1
+                print('\n')
 
 mst_graph = Graph('./data/small.csv').construct_mst()
