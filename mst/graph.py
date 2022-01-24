@@ -69,20 +69,22 @@ class Graph:
             weight, vertices_tuple = heapq.heappop(queue)
             print('edge weight and vertices:', weight, vertices_tuple)
             print('visited:', visited)
-            print('current',vertices_tuple[1])
+            print('current: ', vertices_tuple[1])
             if vertices_tuple[1] not in visited:
                 
                 self.mst[vertices_tuple] = weight
                 self.mst[vertices_tuple[::-1]] = weight
                 
                 visited.append(vertices_tuple[1])
-                
-                neighbors_list = [x for x in weight_by_vertex_list if x[1][0] == vertices_tuple[1] and x[1][1] not in visited ] 
-                heapq.heapify(neighbors_list)
-                print('neighbors: ', neighbors_list)
+
+                vertex_neighbor_list = [x for x in weight_by_vertex_list if x[1][0] == vertices_tuple[1] and x[1][1] not in visited]
+                heapq.heapify(vertex_neighbor_list)
+                for vertex_neighbor in vertex_neighbor_list:                
+                    print('neighbor: ', vertex_neighbor)
+                    heapq.heappush(queue, vertex_neighbor)
+
                 print('MST:', '\n', self.mst)
                 
-                heapq.heappush(queue, neighbors_list)
                 x+=1
                 print('\n')
 
