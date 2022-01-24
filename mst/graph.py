@@ -1,5 +1,6 @@
 import numpy as np
 import heapq
+import itertools
 from typing import Union
 
 class Graph:
@@ -35,4 +36,9 @@ class Graph:
         We highly encourage the use of priority queues in your implementation. See the heapq
         module, particularly the `heapify`, `heappop`, and `heappush` functions.
         """
-        self.mst = 'TODO'
+        self.mst = np.zeros(shape=(self.adj_mat.shape[0],self.adj_mat.shape[1]))
+        vertex_one_array, vertex_two_array = np.where(self.adj_mat > 0)
+        connected_vertices = list(zip(list(vertex_one_array),list(vertex_two_array)))
+        print(connected_vertices)
+
+mst_graph = Graph('./data/small.csv').construct_mst()
