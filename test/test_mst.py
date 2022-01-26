@@ -21,8 +21,9 @@ def check_mst(adj_mat: np.ndarray,
 
         TODO: 
             Add additional assertions to ensure the correctness of your MST implementation
-        For example, how many edges should a minimum spanning tree have? Are minimum spanning trees
-        always connected? What else can you think of?
+        For example, how many edges should a minimum spanning tree have? 
+        Are minimum spanning trees always connected? 
+        What else can you think of?
     """
     def approx_equal(a, b):
         return abs(a - b) < allowed_error
@@ -33,6 +34,9 @@ def check_mst(adj_mat: np.ndarray,
             total += mst[i, j]
     assert approx_equal(total, expected_weight), 'Proposed MST has incorrect expected weight'
 
+    assert (mst == mst.T).all(), "Error: The adjency matrix is not symmetric!"
+    assert (mst == mst[np.any(mst, axis = 0)]).all(), "Error: Each vertex should have a minimum of one edge connected!"
+    assert np.count_nonzero(mst)/ 2 == adj_mat.shape[0] - 1, "Error: The MST should have n number of vertices and n-1 edges!"
 
 def test_mst_small():
     """ Unit test for the construction of a minimum spanning tree on a small graph """
@@ -58,8 +62,8 @@ def test_mst_single_cell_data():
 
 
 def test_mst_student():
-    """ TODO: Write at least one unit test for MST construction """
-    pass
-
-# test_mst_small()
-# test_mst_single_cell_data()
+    """Unit test for the construction of a student's minimum spanning tree"""
+    file_path = './data/mst_student.csv'
+    g = Graph(file_path)
+    g.construct_mst()
+    check_mst(g.adj_mat, g.mst, 6)
